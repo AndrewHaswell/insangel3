@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
-
-Route::get('home', 'HomeController@index');
+Route::get('/', 'GigAdminController@create');
+Route::post('/', 'GigAdminController@confirm');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
