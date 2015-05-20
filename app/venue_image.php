@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class venue_image extends Model {
+class Venue_image extends Model {
 
 	//
 

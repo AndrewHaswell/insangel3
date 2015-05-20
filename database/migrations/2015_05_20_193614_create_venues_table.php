@@ -18,6 +18,7 @@ class CreateVenuesTable extends Migration
       $table->string('venue_name', 200);
       $table->text('venue_description');
       $table->text('venue_address');
+      $table->text('venue_telephone');
       $table->timestamps();
     });
   }

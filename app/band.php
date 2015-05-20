@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class band extends Model {
+class Band extends Model {
 
 	//
 

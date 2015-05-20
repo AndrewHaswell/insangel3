@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Band;
 
 use Request;
 
@@ -24,6 +25,10 @@ class GigAdminController extends Controller {
 	 */
 	public function create()
 	{
+
+    $band = Band::findorfail(1);
+    return $band;
+
 		return view('admin.gig.create');
 	}
 

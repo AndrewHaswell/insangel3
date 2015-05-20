@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class gig extends Model {
+class Gig extends Model {
 
 	//
 
