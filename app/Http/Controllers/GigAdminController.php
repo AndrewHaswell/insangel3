@@ -29,6 +29,10 @@ class GigAdminController extends Controller
   public function create()
   {
 
+    $band = Band::first();
+    $band->gigs;
+    return $band;
+
     $gigs = Gig::find(1);
     $gigs->bands;
     $gigs->venue;
