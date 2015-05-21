@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Gig;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Band;
@@ -27,10 +28,11 @@ class GigAdminController extends Controller
    */
   public function create()
   {
-    $band = Band::findorfail(1);
-    $venues = Venue::all();
 
-
+    $gigs = Gig::find(1);
+    $gigs->bands;
+    $gigs->venue;
+    return $gigs;
 
     return view('admin.gig.create', compact('band', 'venues'));
   }
