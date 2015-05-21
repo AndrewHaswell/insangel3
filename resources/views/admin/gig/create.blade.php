@@ -23,8 +23,6 @@
     <h1>New Gig</h1>
     <hr/>
 
-
-
     {!! Form::open(['action' => 'GigAdminController@store']) !!}
 
     <div class="form-group">

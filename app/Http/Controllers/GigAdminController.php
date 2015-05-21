@@ -26,16 +26,14 @@ class GigAdminController extends Controller
    *
    * @return Response
    */
+
   public function create()
   {
-    $bands = Band::all()->toArray();
-    $venues = Venue::all(['id', 'venue_name'])->keyBy('id');
+    $venues = Venue::all(['id',
+                          'venue_name'])->keyBy('id')->toArray();
+    array_walk($venues, function (&$value) { $value = $value['venue_name']; });
 
-    dd($venues);
-
-    return $venues;
-
-    return view('admin.gig.create', compact('bands', 'venues'));
+    return view('admin.gig.create', compact('venues'));
   }
 
   /**
