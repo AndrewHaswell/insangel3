@@ -28,17 +28,14 @@ class GigAdminController extends Controller
    */
   public function create()
   {
+    $bands = Band::all()->toArray();
+    $venues = Venue::all(['id', 'venue_name'])->keyBy('id');
 
-    $band = Band::first();
-    $band->gigs;
-    return $band;
+    dd($venues);
 
-    $gigs = Gig::find(1);
-    $gigs->bands;
-    $gigs->venue;
-    return $gigs;
+    return $venues;
 
-    return view('admin.gig.create', compact('band', 'venues'));
+    return view('admin.gig.create', compact('bands', 'venues'));
   }
 
   /**
@@ -48,6 +45,10 @@ class GigAdminController extends Controller
    */
   public function store()
   {
+
+    $data = Request::all();
+
+    return $data;
   }
 
   public function confirm()
