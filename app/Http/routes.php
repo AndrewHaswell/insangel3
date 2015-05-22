@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('/', function() {
+  return redirect('admin/gig/create');
+});
+
 Route::resource('admin/gig', 'GigAdminController');
 Route::get('ajax/bands/{count}', 'AjaxController@band_drop_downs');
 

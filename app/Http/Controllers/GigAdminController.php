@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Band;
 
 use App\Venue;
+use Illuminate\Support\Facades\Input;
 use Request;
 
 class GigAdminController extends Controller
@@ -44,7 +45,7 @@ class GigAdminController extends Controller
   public function store()
   {
 
-    $data = Request::all();
+    $data = Input::except('number_of_bands','_token');
 
     return $data;
   }
