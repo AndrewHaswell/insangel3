@@ -1,10 +1,12 @@
 <?php namespace App\Http\Controllers;
 
+use App\Gig;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Band;
 
 use App\Venue;
+use Illuminate\Support\Facades\Input;
 use Request;
 
 class GigAdminController extends Controller
@@ -25,14 +27,14 @@ class GigAdminController extends Controller
    *
    * @return Response
    */
+
   public function create()
   {
-    $band = Band::findorfail(1);
-    $venues = Venue::all();
+    $venues = Venue::all(['id',
+                          'venue_name'])->keyBy('id')->toArray();
+    array_walk($venues, function (&$value) { $value = $value['venue_name']; });
 
-
-
-    return view('admin.gig.create', compact('band', 'venues'));
+    return view('admin.gig.create', compact('venues'));
   }
 
   /**
@@ -42,6 +44,10 @@ class GigAdminController extends Controller
    */
   public function store()
   {
+
+    $data = Input::except('number_of_bands','_token');
+
+    return $data;
   }
 
   public function confirm()

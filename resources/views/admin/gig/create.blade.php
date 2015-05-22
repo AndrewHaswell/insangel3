@@ -23,7 +23,7 @@
     <h1>New Gig</h1>
     <hr/>
 
-    {!! Form::open() !!}
+    {!! Form::open(['action' => 'GigAdminController@store']) !!}
 
     <div class="form-group">
         {!! Form::label('date', 'Date: ') !!}
@@ -47,7 +47,7 @@
 
     <div class="form-group">
         {!! Form::label('venue', 'Venue: ') !!}
-        {!! Form::select('venue', [1 => 'Andy', 2 => 'Bob', 3 => 'Something'], null, ['id' => 'venue',
+        {!! Form::select('venue', $venues, null, ['id' => 'venue',
         'class'=>'form-control']) !!}
     </div>
 
@@ -76,7 +76,7 @@
         });
 
 
-        $("#datepicker").datetimepicker();
+        $("#datepicker").datetimepicker({defaultValue: "<?=date('Y-m-d H:i:s')?>"});
 
         $('#number_of_bands').bind('change', function () {
             var band_count = $('#number_of_bands').val();

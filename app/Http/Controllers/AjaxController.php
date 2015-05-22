@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Band;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -15,6 +16,12 @@ class AjaxController extends Controller
    */
   public function band_drop_downs($count)
   {
-    return view('ajax.bands', ['count' => $count]);
+    $bands = Band::all(['id',
+                        'band_name'])->keyBy('band_name')->toArray();
+
+    array_walk($bands, function (&$value) { $value = $value['band_name']; });
+    array_unshift($bands, '');
+
+    return view('ajax.bands', compact('bands', 'count'));
   }
 }
