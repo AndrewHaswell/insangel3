@@ -76,14 +76,14 @@
         });
 
 
-        $("#datepicker").datetimepicker({defaultValue: "<?=date('Y-m-d H:i:s')?>"});
+        $("#datepicker").datetimepicker({hour: "20", dateFormat: "yy-mm-dd", timeformat: "HH:mm:ss"});
 
         $('#number_of_bands').bind('change', function () {
             var band_count = $('#number_of_bands').val();
             $.ajax
             (
                     {
-                        url: '{{ url('ajax/bands') }}/'+band_count,
+                        url: '{{ url('ajax/bands') }}/' + band_count,
                         dataType: 'html',
                         type: 'GET',
                         async: true,

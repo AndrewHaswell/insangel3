@@ -18,6 +18,7 @@ class CreateGigsTable extends Migration
       $table->integer('venue_id');
       $table->string('title', 150);
       $table->string('subtitle', 150);
+      $table->string('cost', 150);
       $table->dateTime('datetime');
       $table->timestamps();
     });

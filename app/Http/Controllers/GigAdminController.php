@@ -3,10 +3,13 @@
 use App\Gig;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Band;
 
+use App\Band;
 use App\Venue;
+
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
+
 use Request;
 
 class GigAdminController extends Controller
@@ -31,7 +34,7 @@ class GigAdminController extends Controller
   public function create()
   {
     $venues = Venue::all(['id',
-                          'venue_name'])->keyBy('id')->toArray();
+                          'venue_name'])->keyBy('venue_name')->toArray();
     array_walk($venues, function (&$value) { $value = $value['venue_name']; });
 
     return view('admin.gig.create', compact('venues'));
@@ -44,15 +47,31 @@ class GigAdminController extends Controller
    */
   public function store()
   {
+    $gig_data = Input::all();
 
-    $data = Input::except('number_of_bands','_token');
+    $venue = Venue::firstOrCreate(['venue_name' => $gig_data['venue']]);
 
-    return $data;
+    $gig = Gig::firstOrCreate(['venue_id' => $venue->id,
+                               'datetime' => $gig_data['date'],]);
+
+    $gig->title = $gig_data['title'];
+    $gig->subtitle = $gig_data['subtitle'];
+    $gig->cost = $gig_data['cost'];
+    $gig->save();
+
+    $bands = $gig_data['bands'];
+
+    foreach ($bands as $band) {
+      $this_band = Band::firstOrCreate(['band_name' => $band]);
+      $gig->bands()->attach($this_band);
+    }
+
+    return $gig;
   }
 
   public function confirm()
   {
-    $input = Request::all();
+    $input = Request::all()->toArray();
 
     return $input;
   }

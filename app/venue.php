@@ -2,8 +2,13 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Venue extends Model {
+class Venue extends Model
+{
 
-	//
+  protected $fillable = ['venue_name',
+                         'title',
+                         'subtitle',
+                         'datetime',
+                         'cost'];
 
 }

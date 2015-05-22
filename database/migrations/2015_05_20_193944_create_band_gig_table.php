@@ -15,8 +15,10 @@ class CreateBandGigTable extends Migration
   {
     Schema::create('band_gig', function (Blueprint $table) {
       $table->increments('id');
-      $table->integer('band_id')->unsigned();
+      $table->integer('band_id')->unsigned()->index();
+      $table->foreign('band_id')->references('id')->on('bands')->onDelete('cascade');
       $table->integer('gig_id')->unsigned();
+      $table->foreign('gig_id')->references('id')->on('gigs')->onDelete('cascade');
       $table->timestamps();
     });
   }
