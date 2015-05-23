@@ -3,10 +3,13 @@
 use App\Gig;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Band;
 
+use App\Band;
+use App\Http\Requests\storeGigAdminRequest;
 use App\Venue;
+
 use Illuminate\Support\Facades\Input;
+
 use Request;
 
 class GigAdminController extends Controller
@@ -31,30 +34,53 @@ class GigAdminController extends Controller
   public function create()
   {
     $venues = Venue::all(['id',
-                          'venue_name'])->keyBy('id')->toArray();
+                          'venue_name'])->keyBy('venue_name')->toArray();
     array_walk($venues, function (&$value) { $value = $value['venue_name']; });
 
     return view('admin.gig.create', compact('venues'));
   }
 
   /**
-   * Store a newly created resource in storage.
+   * Save the results of the gig form
    *
-   * @return Response
+   * @param storeGigAdminRequest $request
+   * @return static
+   *
+   * @author Andrew Haswell
    */
-  public function store()
+
+  public function store(storeGigAdminRequest $request)
   {
+    // Get the form data
+    $gig_data = Input::all();
 
-    $data = Input::except('number_of_bands','_token');
+    // Get or create the venue for the gig
+    $venue = Venue::firstOrCreate(['venue_name' => $gig_data['venue']]);
 
-    return $data;
-  }
+    // Get or create the gig based on the venue and the time
+    $gig = Gig::firstOrCreate(['venue_id' => $venue->id,
+                               'datetime' => $gig_data['date'],]);
 
-  public function confirm()
-  {
-    $input = Request::all();
+    // Update the rest of the gig info
+    $gig->title = $gig_data['title'];
+    $gig->subtitle = $gig_data['subtitle'];
+    $gig->cost = $gig_data['cost'];
+    $gig->notes = $gig_data['notes'];
+    $gig->save();
 
-    return $input;
+    // Remove any attached bands from the gig
+    $gig->bands()->detach();
+
+    // Update the band info
+    foreach ($gig_data['bands'] as $band) {
+
+      // Get or create the band
+      $this_band = Band::firstOrCreate(['band_name' => ($band ? : 'TBC')]);
+      // Assign the band to the gig
+      $gig->bands()->save($this_band);
+    }
+
+    return $gig;
   }
 
   /**
