@@ -5,10 +5,10 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Band;
+use App\Http\Requests\storeGigAdminRequest;
 use App\Venue;
 
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Log;
 
 use Request;
 
@@ -41,39 +41,46 @@ class GigAdminController extends Controller
   }
 
   /**
-   * Store a newly created resource in storage.
+   * Save the results of the gig form
    *
-   * @return Response
+   * @param storeGigAdminRequest $request
+   * @return static
+   *
+   * @author Andrew Haswell
    */
-  public function store()
+
+  public function store(storeGigAdminRequest $request)
   {
+    // Get the form data
     $gig_data = Input::all();
 
+    // Get or create the venue for the gig
     $venue = Venue::firstOrCreate(['venue_name' => $gig_data['venue']]);
 
+    // Get or create the gig based on the venue and the time
     $gig = Gig::firstOrCreate(['venue_id' => $venue->id,
                                'datetime' => $gig_data['date'],]);
 
+    // Update the rest of the gig info
     $gig->title = $gig_data['title'];
     $gig->subtitle = $gig_data['subtitle'];
     $gig->cost = $gig_data['cost'];
+    $gig->notes = $gig_data['notes'];
     $gig->save();
 
-    $bands = $gig_data['bands'];
+    // Remove any attached bands from the gig
+    $gig->bands()->detach();
 
-    foreach ($bands as $band) {
-      $this_band = Band::firstOrCreate(['band_name' => $band]);
-      $gig->bands()->attach($this_band);
+    // Update the band info
+    foreach ($gig_data['bands'] as $band) {
+
+      // Get or create the band
+      $this_band = Band::firstOrCreate(['band_name' => ($band ? : 'TBC')]);
+      // Assign the band to the gig
+      $gig->bands()->save($this_band);
     }
 
     return $gig;
-  }
-
-  public function confirm()
-  {
-    $input = Request::all()->toArray();
-
-    return $input;
   }
 
   /**

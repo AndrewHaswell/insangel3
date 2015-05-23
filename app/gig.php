@@ -1,11 +1,13 @@
 <?php namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Gig extends Model
 {
 
-  protected $fillable = ['datetime','venue_id'];
+  protected $fillable = ['datetime',
+                         'venue_id'];
 
   /**
    * @param $value
@@ -14,7 +16,17 @@ class Gig extends Model
    */
   public function setCostAttribute($value)
   {
-    return !empty($value) ? $value : 'Free';
+    $this->attributes['cost'] = $value ?: 'Free';
+  }
+
+  /**
+   * @param $value
+   * @return string
+   * @author Andrew Haswell
+   */
+  public function setNotesAttribute($value)
+  {
+    $this->attributes['notes'] = $value ?: '';
   }
 
   /**
@@ -33,5 +45,25 @@ class Gig extends Model
   public function venue()
   {
     return $this->belongsTo('App\Venue');
+  }
+
+  /**
+   * @param $query
+   * @return mixed
+   * @author Andrew Haswell
+   */
+  public function scopeAllByDate($query)
+  {
+    return $query->with('bands')->with('venue')->orderBy('datetime', 'asc');
+  }
+
+  /**
+   * @param $query
+   * @return mixed
+   * @author Andrew Haswell
+   */
+  public function scopeAllCurrentByDate($query)
+  {
+    return $query->where('datetime', '>=', Carbon::now())->with('bands')->with('venue')->orderBy('datetime', 'asc');
   }
 }

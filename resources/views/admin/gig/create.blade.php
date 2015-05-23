@@ -23,6 +23,15 @@
     <h1>New Gig</h1>
     <hr/>
 
+    @if ($errors->any())
+
+        <div class="alert alert-danger">
+            @foreach ($errors->all() as $error)
+                <li>{{$error}}</li>
+            @endforeach
+        </div>
+    @endif
+
     {!! Form::open(['action' => 'GigAdminController@store']) !!}
 
     <div class="form-group">
@@ -43,6 +52,11 @@
     <div class="form-group">
         {!! Form::label('cost', 'Cost: ') !!}
         {!! Form::text('cost', null, ['class'=>'form-control']) !!}
+    </div>
+
+    <div class="form-group">
+        {!! Form::label('notes', 'Notes: ') !!}
+        {!! Form::text('notes', null, ['class'=>'form-control']) !!}
     </div>
 
     <div class="form-group">
@@ -71,10 +85,14 @@
     $(function () {
 
         $("#venue").select2({
-            placeholder: "Balls",
+            placeholder: "Select a venue from the list or create a new one",
             tags: true
         });
 
+        $("#number_of_bands").select2({
+            placeholder: "Select the number of bands for this gig",
+            tags: true
+        });
 
         $("#datepicker").datetimepicker({hour: "20", dateFormat: "yy-mm-dd", timeformat: "HH:mm:ss"});
 
@@ -90,7 +108,7 @@
                         success: function (data) {
                             $('#band_list').html(data);
                             $(".band_select").select2({
-                                placeholder: "Balls",
+                                placeholder: "Select band from list, create new one or leave empty for TBC",
                                 tags: true
                             });
                         }
