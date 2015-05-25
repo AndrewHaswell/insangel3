@@ -8,12 +8,22 @@ use App\Band;
 use App\Http\Requests\storeGigAdminRequest;
 use App\Venue;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 
+use Illuminate\Support\Facades\Redirect;
 use Request;
 
 class GigAdminController extends Controller
 {
+
+  public function __construct()
+  {
+    $authorised = Auth::check();
+    if (!$authorised) {
+      abort(403, 'Unauthorized action.');
+    }
+  }
 
   /**
    * Display a listing of the resource.
@@ -22,7 +32,9 @@ class GigAdminController extends Controller
    */
   public function index()
   {
-    //
+    $gigs = Gig::AllByDate()->get();
+    $delete = true;
+    return view('gig.show', compact('gigs', 'delete'));
   }
 
   /**
@@ -45,7 +57,6 @@ class GigAdminController extends Controller
    *
    * @param storeGigAdminRequest $request
    * @return static
-   *
    * @author Andrew Haswell
    */
 
@@ -57,9 +68,19 @@ class GigAdminController extends Controller
     // Get or create the venue for the gig
     $venue = Venue::firstOrCreate(['venue_name' => $gig_data['venue']]);
 
-    // Get or create the gig based on the venue and the time
-    $gig = Gig::firstOrCreate(['venue_id' => $venue->id,
-                               'datetime' => $gig_data['date'],]);
+    if (!empty($gig_data['gig_id'])) {
+      $gig = Gig::findOrFail($gig_data['gig_id']);
+      $gig->venue_id = $venue->id;
+      $gig->datetime = $gig_data['date'];
+      $message = 'Gig updated';
+    }
+
+    if (!isset($gig)) {
+      // Get or create the gig based on the venue and the time
+      $gig = Gig::firstOrCreate(['venue_id' => $venue->id,
+                                 'datetime' => $gig_data['date'],]);
+      $message = 'Gig created';
+    }
 
     // Update the rest of the gig info
     $gig->title = $gig_data['title'];
@@ -75,12 +96,12 @@ class GigAdminController extends Controller
     foreach ($gig_data['bands'] as $band) {
 
       // Get or create the band
-      $this_band = Band::firstOrCreate(['band_name' => ($band ? : 'TBC')]);
+      $this_band = Band::firstOrCreate(['band_name' => ($band ?: 'TBC')]);
       // Assign the band to the gig
       $gig->bands()->save($this_band);
     }
 
-    return $gig;
+    return Redirect::action('GigAdminController@index')->with('message', $message);
   }
 
   /**
@@ -102,7 +123,13 @@ class GigAdminController extends Controller
    */
   public function edit($id)
   {
-    //
+    $venues = Venue::all(['id',
+                          'venue_name'])->keyBy('venue_name')->toArray();
+    array_walk($venues, function (&$value) { $value = $value['venue_name']; });
+    $gigs = Gig::AllByDate()->findOrfail($id);
+    $submit = $title = 'Edit Gig';
+
+    return view('admin.gig.create', compact('venues', 'gigs', 'submit', 'title'));
   }
 
   /**
