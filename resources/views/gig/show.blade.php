@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Gig Guide</title>
-
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ URL::asset('css/main.css') }}" rel="stylesheet" type="text/css">
     <style>
         body {
@@ -34,7 +34,7 @@
 </head>
 <body>
 <div id="head">
-    <div id="insangel_logo"><img src="/images/insangel.png"/></div>
+    <div id="insangel_logo"><img src="{{ URL::asset('images/insangel.png') }}"/></div>
 </div>
 <div id="main">
     <div id="side_bar">

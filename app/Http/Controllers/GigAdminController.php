@@ -8,6 +8,7 @@ use App\Band;
 use App\Http\Requests\storeGigAdminRequest;
 use App\Venue;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 
 use Illuminate\Support\Facades\Redirect;
@@ -16,8 +17,12 @@ use Request;
 class GigAdminController extends Controller
 {
 
-  public function __construct(){
-    $this->middleware('auth');
+  public function __construct()
+  {
+    $authorised = Auth::check();
+    if (!$authorised) {
+      abort(403, 'Unauthorized action.');
+    }
   }
 
   /**

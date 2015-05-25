@@ -17,6 +17,7 @@ class CreateBandsTable extends Migration
       $table->increments('id');
       $table->string('band_name', 150);
       $table->text('band_description');
+      $table->text('band_logo');
       $table->timestamps();
     });
   }

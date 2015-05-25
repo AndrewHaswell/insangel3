@@ -3,7 +3,7 @@
 use App\Http\Requests\Request;
 use Illuminate\Support\Facades\Auth;
 
-class storeGigAdminRequest extends Request {
+class storeBandAdminRequest extends Request {
 
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -23,10 +23,8 @@ class storeGigAdminRequest extends Request {
 	public function rules()
 	{
 		return [
-      'date' => 'required|date',
-      'venue' => 'required',
-      'notes' => 'max:75',
-      'number_of_bands' => 'numeric|min:1',
+			'name' => 'required',
+			'logo' => 'image|max:1024',
 		];
 	}
 
