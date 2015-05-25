@@ -30,6 +30,12 @@
         .detail:after {
             content: ' / ';
             }
+
+        @if (!empty($delete))
+        body {
+            background-image: url("/images/body_background_admin.jpg");
+            }
+        @endif
     </style>
 </head>
 <body>
@@ -54,11 +60,13 @@
             @if (!empty($gigs))
                 @foreach ($gigs as $gig)
                     <div class="gig">
-                        <div class="gig_title">{{ $gig['title'] ? $gig['title'] . ' :: ': '' }}{{Carbon\Carbon::parse($gig['datetime'])->format('D jS M y')}}</div>
-                        @if (!empty($delete))
-                            <span class="delete"><a href="#">Delete Gig</a></span>
-                            <span class="edit"><a href="/admin/gig/{{$gig['id']}}/edit">Edit Gig</a></span>
-                        @endif
+                        <div class="gig_title">{{ $gig['title'] ? $gig['title'] . ' :: ': '' }}{{Carbon\Carbon::parse($gig['datetime'])->format('D jS M y')}}
+                            @if (!empty($delete))
+                                <span class="delete"><a href="#"><img src="{{ URL::asset('images/delete.png') }}"/></a></span>
+                                <span class="edit"><a href="/admin/gig/{{$gig['id']}}/edit"><img
+                                                src="{{ URL::asset('images/edit.png') }}"/></a></span>
+                            @endif
+                        </div>
                         @if (!empty($gig['subtitle']))
                             <div class="subtitle">{{$gig['subtitle']}}</div>
                         @endif
@@ -67,7 +75,8 @@
                             <?php $band_count = count($gig['bands']); ?>
                             <?php $counter = 1; ?>
                             @foreach ($gig['bands'] as $band)
-                                <span class="band"><a href="#">{{$band['band_name']}}</a></span>
+                                <span class="band"><a
+                                            href="{{!empty($delete)?'/admin/band/'.$band['id'].'/edit':'#'}}">{{$band['band_name']}}</a></span>
                                 @if ($counter < $band_count)
                                     <span class="band_separator">-</span>
                                 @endif

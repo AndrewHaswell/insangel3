@@ -17,6 +17,7 @@ Route::get('/', 'GigController@index');
 Route::resource('admin/gig', 'GigAdminController');
 Route::resource('admin/band', 'BandAdminController');
 Route::get('ajax/bands/{count}', 'AjaxController@band_drop_downs');
+Route::get('admin', 'GigAdminController@index');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

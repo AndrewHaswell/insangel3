@@ -6,21 +6,22 @@
 
     <div class="form-group">
         {!! Form::label('name', 'Name: ') !!}
-        {!! Form::text('name', (!empty($bands['name']) ? $bands['name'] : null), ['class'=>'form-control']) !!}
+        {!! Form::text('name', (!empty($band['band_name']) ? $band['band_name'] : null), ['class'=>'form-control']) !!}
     </div>
 
     <div class="form-group">
         {!! Form::label('description', 'Description: ') !!}
-        {!! Form:: textarea('description', (!empty($bands['description']) ? $bands['description'] : null),
+        {!! Form:: textarea('description', (!empty($band['band_description']) ? $band['band_description'] : null),
         ['class'=>'form-control']) !!}
     </div>
 
-    @if (!empty($bands['logo']))
-        <img src=""/>
+    @if (!empty($band['band_logo']))
+        <div class="band_logo"><img src="{{ URL::asset('downloads/band_logos/'.$band['band_logo']) }}"/></div>
     @endif
 
     <div class="form-group">
-        {!! Form::label('logo', 'Logo: ') !!}
+        <?php $logo_message = !empty($band['band_logo']) ? 'Change Logo' : 'Add Logo'; ?>
+        {!! Form::label('logo', $logo_message.': ') !!}
         {!! Form::file('logo', null, ['class'=>'form-control']) !!}
     </div>
 
