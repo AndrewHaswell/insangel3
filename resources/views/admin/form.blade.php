@@ -4,6 +4,19 @@
     <meta charset="UTF-8">
     <title>{{!empty($title)?$title:'New Gig'}}</title>
 
+    <style>
+        .band_logo {
+            margin: 25px 0;
+            }
+
+        .band_logo img {
+            display: block;
+            margin: 0 auto;
+            max-width:  350px;
+            max-height: 200px;
+            }
+    </style>
+
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
     <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.min.css"
@@ -16,7 +29,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.min.js"></script>
 
     <script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
-    <script>tinymce.init({ selector : "textarea:not(.no_editor)", invalid_elements: "style", plugins: "image" });</script>
+    <script>tinymce.init({selector: "textarea:not(.no_editor)", invalid_elements: "style", plugins: "image"});</script>
 </head>
 
 <body>

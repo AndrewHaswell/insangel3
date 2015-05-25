@@ -102,7 +102,12 @@ class BandAdminController extends Controller
    */
   public function edit($id)
   {
-    //
+    $title = 'Edit Band';
+    $submit = 'Save Changes';
+
+    $band = Band::findOrFail($id);
+
+    return view('admin.band.create', compact('title','band','submit'));
   }
 
   /**
