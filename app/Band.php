@@ -12,7 +12,7 @@ class Band extends Model
   /**
    * @param $value
    * @author Andrew Haswell
-   *         
+   *
    */
 
   public function setBandNameAttribute($value)
