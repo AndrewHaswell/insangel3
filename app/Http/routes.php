@@ -13,6 +13,7 @@
 
 
 Route::get('/', 'GigController@index');
+Route::get('/bands', 'BandController@index');
 
 Route::resource('admin/gig', 'GigAdminController');
 Route::resource('admin/band', 'BandAdminController');
