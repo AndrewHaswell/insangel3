@@ -13,8 +13,6 @@ class BandController extends Controller {
    */
   public function index(){
     $bands = Band::AllCurrentByDate()->get();
-    return $bands;
-
-	}
-
+    return view('band.show', compact('bands'));
+  }
 }

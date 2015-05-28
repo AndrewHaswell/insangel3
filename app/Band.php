@@ -12,7 +12,6 @@ class Band extends Model
   /**
    * @param $value
    * @author Andrew Haswell
-   *
    */
 
   public function setBandNameAttribute($value)
@@ -45,6 +44,10 @@ class Band extends Model
    */
   public function scopeAllCurrentByDate($query)
   {
-    return $query->with('gigs', 'gigs.venue')->orderBy('band_name', 'asc');
+    return $query->with(['gigs' => function ($w) {
+      $w->where('datetime', '>=', Carbon::now());
+    }, 'gigs.venue'])->whereHas('gigs', function ($wh) {
+      $wh->where('cost', '=', 'Free');
+    })->orderBy('band_name', 'asc');
   }
 }

@@ -11,8 +11,19 @@
 |
 */
 
+use Intervention\Image\Facades\Image;
 
 Route::get('/', 'GigController@index');
+
+Route::get('/pic2', function()
+{
+
+  $img = Image::make('downloads/band_logos/bonJovi.png')->trim();
+
+
+  return $img->response('png');
+});
+
 Route::get('/bands', 'BandController@index');
 
 Route::resource('admin/gig', 'GigAdminController');
