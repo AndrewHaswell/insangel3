@@ -44,8 +44,10 @@ class Band extends Model
    */
   public function scopeAllCurrentByDate($query)
   {
-    return $query->with('gigs', 'gigs.venue')->whereHas('gigs', function ($q) {
-      $q->where('datetime', '>=', Carbon::now());
+    return $query->with(['gigs' => function ($w) {
+      $w->where('datetime', '>=', Carbon::now());
+    }, 'gigs.venue'])->whereHas('gigs', function ($wh) {
+      $wh->where('cost', '=', 'Free');
     })->orderBy('band_name', 'asc');
   }
 }
