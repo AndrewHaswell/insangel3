@@ -34,7 +34,7 @@
 
 <body>
 <div id="head">
-    <div id="insangel_logo"><img src="{{ URL::asset('images/insangel.png') }}"/></div>
+    <div id="insangel_logo"><img style = "display:block; margin: 0 auto 10px auto" src="{{ URL::asset('images/insangel.png') }}"/></div>
 </div>
 <div class="container">
     <h1>{{!empty($title)?$title:'New Gig'}}</h1>
