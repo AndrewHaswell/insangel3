@@ -20,6 +20,8 @@ class AuthController extends Controller {
 
 	use AuthenticatesAndRegistersUsers;
 
+  protected $redirectPath = 'admin';
+
 	/**
 	 * Create a new authentication controller instance.
 	 *
@@ -34,5 +36,22 @@ class AuthController extends Controller {
 
 		$this->middleware('guest', ['except' => 'getLogout']);
 	}
+
+  /**
+   * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+   * @author Andrew Haswell
+   */
+  public function getRegister()
+  {
+    return redirect('auth/login'); // or something else
+  }
+
+  /**
+   * @author Andrew Haswell
+   */
+  public function postRegister()
+  {
+
+  }
 
 }
