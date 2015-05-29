@@ -18,13 +18,14 @@ Route::get('/', 'GigController@index');
 Route::get('/pic2', function()
 {
 
-  $img = Image::make('downloads/band_logos/bonJovi.png')->trim();
+  $img = Image::make('downloads/band_logos/gunsN\'Roses.png')->trim();
 
 
   return $img->response('png');
 });
 
 Route::get('/bands', 'BandController@index');
+Route::get('/venues', 'VenueController@index');
 
 Route::resource('admin/gig', 'GigAdminController');
 Route::resource('admin/band', 'BandAdminController');
