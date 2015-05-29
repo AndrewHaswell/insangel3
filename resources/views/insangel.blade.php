@@ -11,9 +11,8 @@
             line-height: 1.4em;
             }
 
-        .band_logo img
-        {
-            max-width: 300px;
+        .band_logo img {
+            max-width:  300px;
             max-height: 150px;
             }
 
@@ -37,6 +36,19 @@
             content: ' / ';
             }
 
+        #admin_menu {
+            margin: 15px 0 25px 0;
+            }
+
+        #admin_menu a {
+            font-size:   14pt;
+            font-weight: bold;
+            padding: 10px 25px;
+            border: 1px solid black;
+            background-color: white;
+            text-decoration: none;
+            }
+
         @if (!empty($delete))
         body {
             background-image: url("/images/body_background_admin.jpg");
@@ -52,6 +64,7 @@
     <div id="body">
         <div id="body_text">
 
+            @yield('admin_menu')
 
             @if(Session::has('message'))
                 <p class="alert alert-danger">{{ Session::get('message') }}</p>

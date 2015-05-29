@@ -9,6 +9,8 @@
         {!! Form::text('name', (!empty($band['band_name']) ? $band['band_name'] : null), ['class'=>'form-control']) !!}
     </div>
 
+    {!! Form::hidden('band_id', (!empty($band['id']) ? $band['id'] : 0)) !!}
+
     <div class="form-group">
         {!! Form::label('description', 'Description: ') !!}
         {!! Form:: textarea('description', (!empty($band['band_description']) ? $band['band_description'] : null),

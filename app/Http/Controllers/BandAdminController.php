@@ -45,6 +45,7 @@ class BandAdminController extends Controller
    * Store a newly created resource in storage.
    *
    * @param storeBandAdminRequest $request
+   *
    * @return mixed
    * @author Andrew Haswell
    */
@@ -67,11 +68,14 @@ class BandAdminController extends Controller
       $band_data['logo'] = camel_case($band_data['name'] . '.' . $extension);
     }
 
-    $band = Band::where('band_name', '=', trim($band_data['name']))->first();
+    $band = !empty($band_data['band_id']) ? Band::find((int)$band_data['band_id'])
+      : Band::where('band_name', '=', trim($band_data['name']))->first();
+
     if (is_null($band)) {
       $band = Band::firstOrCreate(['band_name' => trim($band_data['name'])]);
       $message = 'Band Created: ' . $band_data['name'];
     } else {
+      if (!empty($band_data['band_id']) && !empty($band_data['name'])) $band->band_name = $band_data['name'];
       $message = 'Band Edited: ' . $band_data['name'];
     }
 
@@ -87,6 +91,7 @@ class BandAdminController extends Controller
    * Display the specified resource.
    *
    * @param  int $id
+   *
    * @return Response
    */
   public function show($id)
@@ -98,6 +103,7 @@ class BandAdminController extends Controller
    * Show the form for editing the specified resource.
    *
    * @param  int $id
+   *
    * @return Response
    */
   public function edit($id)
@@ -107,13 +113,14 @@ class BandAdminController extends Controller
 
     $band = Band::findOrFail($id);
 
-    return view('admin.band.create', compact('title','band','submit'));
+    return view('admin.band.create', compact('title', 'band', 'submit'));
   }
 
   /**
    * Update the specified resource in storage.
    *
    * @param  int $id
+   *
    * @return Response
    */
   public function update($id)
@@ -125,6 +132,7 @@ class BandAdminController extends Controller
    * Remove the specified resource from storage.
    *
    * @param  int $id
+   *
    * @return Response
    */
   public function destroy($id)
