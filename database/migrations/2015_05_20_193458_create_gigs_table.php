@@ -21,6 +21,7 @@ class CreateGigsTable extends Migration
       $table->string('cost', 150);
       $table->string('notes', 75);
       $table->timestamp('datetime');
+      $table->enum('cover', array('Y', 'N'))->default('N');
       $table->timestamps();
     });
   }

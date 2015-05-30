@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
 use Request;
 
 class GigAdminController extends Controller
@@ -34,7 +35,7 @@ class GigAdminController extends Controller
   {
     $gigs = Gig::AllByDate()->get();
     $delete = true;
-    return view('gig.show', compact('gigs', 'delete'));
+    return view('admin.gig.show', compact('gigs', 'delete'));
   }
 
   /**
@@ -87,6 +88,7 @@ class GigAdminController extends Controller
     $gig->subtitle = $gig_data['subtitle'];
     $gig->cost = $gig_data['cost'];
     $gig->notes = $gig_data['notes'];
+    $gig->cover = (!empty($gig_data['cover']) ? 'Y' : 'N');
     $gig->save();
 
     // Remove any attached bands from the gig
@@ -151,6 +153,95 @@ class GigAdminController extends Controller
    */
   public function destroy($id)
   {
-    //
+    $gig = Gig::find($id);
+    $message = 'Gig deleted';
+    $gig->delete();
+
+    return Redirect::action('GigAdminController@index')->with('message', $message);
+  }
+
+  public function gig_list()
+  {
+
+    $gig_download = [];
+
+    $gigs = Gig::AllCurrentByDate()->get();
+
+    if (!empty($gigs)) {
+      foreach ($gigs as $gig) {
+        $this_gig = [];
+        $this_gig[] = date('l jS F', strtotime($gig['datetime']));
+
+        if (!empty($gig['title'])) {
+          $this_gig[] = $gig['title'];
+        }
+
+        if (!empty($gig['subtitle'])) {
+          $this_gig[] = $gig['subtitle'];
+        }
+
+        $band_list = array_chunk($gig->bands->lists('band_name'), 3);
+
+        $first_row = true;
+
+        foreach ($band_list as $bands) {
+          $this_gig[] = ($first_row ? '' : '+ ') . implode(' + ', $bands);
+          $first_row = false;
+        }
+
+        $venue = $gig->venue['venue_name'];
+
+        if (!empty($gig->venue['venue_address'])) {
+          $venue .= ', ' . $gig->venue['venue_address'];
+        }
+
+        if (!empty($gig['notes'])) {
+          $this_gig[] = $gig['notes'];
+        }
+
+        $this_gig[] = trim($venue);
+
+        $details = [];
+
+        $details[] = is_numeric($gig['cost']) ? '£' . number_format($gig['cost'], 2) : $gig['cost'];
+        $details[] = date('g.ia', strtotime($gig['datetime']));
+        $details[] = '07901 616 185'; //TODO Un-hardcode this
+
+        $this_gig[] = implode(' | ', $details);
+
+        $gig_download[] = implode("\n\r\n\r", $this_gig);
+      }
+    }
+
+    $cover_gigs = Venue::AllCoverVenues()->get();
+
+    if (count($cover_gigs) > 0) {
+      $gig_download[] = str_pad('-', 40, '-') . "\n\r\n\r" . 'COVER GIGS AND VENUES' . "\n\r\n\r" . str_pad('-', 40, '-');
+
+      foreach ($cover_gigs as $cover_gig) {
+        if (count($cover_gig->gigs) > 0) {
+          $this_cover_gig = [];
+
+          $venue = $cover_gig['venue_name'];
+
+          if (!empty($cover_gig['venue_address'])) {
+            $venue .= ', ' . $cover_gig['venue_address'];
+          }
+
+          $this_cover_gig[] = $venue;
+
+          foreach ($cover_gig->gigs as $gig) {
+            $bands = implode(' + ', $gig->bands->lists('band_name'));
+            $this_cover_gig[] = date('j M', strtotime($gig['datetime'])) . ' - ' . $bands;
+          }
+
+          $this_cover_gig[] = "\n\r" . str_pad('-', 40, '-');
+          $gig_download[] = implode("\n\r\n\r", $this_cover_gig);
+        }
+      }
+    }
+
+    return Response::make(implode("\n\r\n\r\n\r", $gig_download), '200', array('Content-Type'        => 'application/octet-stream',
+                                                                               'Content-Disposition' => 'attachment; filename="gig_list.txt'));
   }
 }

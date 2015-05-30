@@ -33,10 +33,33 @@
 
     {!! Form::close() !!}
 
+    @if (!empty($band['id']))
+        {!! Form::open(['action' => ['BandAdminController@destroy', $band['id']], 'method' => 'delete']) !!}
+        <div class="form-group">
+            {!! Form::submit('Delete this band?', ['id' => 'delete_band', 'class' => 'btn btn-danger btn-primary
+            form-control']) !!}
+        </div>
+        {!! Form::close() !!}
+    @endif
+
 @endsection
 
 @section('footer_script')
     <script>
+
+        $(function () {
+
+            $('#delete_band').click(
+                    function () {
+                        if (confirm('Are you certain you wish to delete this band? This CANNOT be reversed')) {
+                            return true;
+                        }
+                        return false;
+                    }
+            );
+
+        });
+
         // Prevent bootstrap dialog from blocking focusin
         $(document).on('focusin', function (e) {
             if ($(e.target).closest(".mce-window").length) {

@@ -64,6 +64,16 @@ class Gig extends Model
    */
   public function scopeAllCurrentByDate($query)
   {
-    return $query->where('datetime', '>=', Carbon::now())->with('bands')->with('venue')->orderBy('datetime', 'asc');
+    return $query->where('datetime', '>=', Carbon::now())->where('cover', '!=', 'Y')->with('bands')->with('venue')->orderBy('datetime', 'asc');
+  }
+
+  /**
+   * @param $query
+   * @return mixed
+   * @author Andrew Haswell
+   */
+  public function scopeAllCoverCurrentByDate($query)
+  {
+    return $query->where('datetime', '>=', Carbon::now())->where('cover', '=', 'Y')->with('bands')->with('venue')->orderBy('datetime', 'asc');
   }
 }

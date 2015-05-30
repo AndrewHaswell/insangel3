@@ -2,70 +2,84 @@
 
 @section('form_body')
 
-{!! Form::open(['action' => 'GigAdminController@store']) !!}
+    {!! Form::open(['action' => 'GigAdminController@store']) !!}
 
-<div class="form-group">
-    {!! Form::label('date', 'Date: ') !!}
-    {!! Form::text('date', (!empty($gigs['datetime']) ?$gigs['datetime']:null), ['id'=>'datepicker',
-    'class'=>'form-control']) !!}
-</div>
+    <div class="form-group">
+        {!! Form::label('date', 'Date: ') !!}
+        {!! Form::text('date', (!empty($gigs['datetime']) ? $gigs['datetime'] : null), ['id'=>'datepicker',
+        'class'=>'form-control']) !!}
+    </div>
 
-<div class="form-group">
-    {!! Form::label('title', 'Title: ') !!}
-    {!! Form::text('title', (!empty($gigs['title']) ?$gigs['title']:null), ['class'=>'form-control']) !!}
-</div>
+    <div class="form-group">
+        {!! Form::label('title', 'Title: ') !!}
+        {!! Form::text('title', (!empty($gigs['title']) ? $gigs['title'] : null), ['class'=>'form-control']) !!}
+    </div>
 
-<div class="form-group">
-    {!! Form::label('subtitle', 'Subtitle: ') !!}
-    {!! Form::text('subtitle', (!empty($gigs['subtitle']) ?$gigs['subtitle']:null), ['class'=>'form-control']) !!}
-</div>
+    <div class="form-group">
+        {!! Form::label('subtitle', 'Subtitle: ') !!}
+        {!! Form::text('subtitle', (!empty($gigs['subtitle']) ? $gigs['subtitle'] : null), ['class'=>'form-control'])
+        !!}
+    </div>
 
-<div class="form-group">
-    {!! Form::label('cost', 'Cost: ') !!}
-    {!! Form::text('cost', (!empty($gigs['cost']) ?$gigs['cost']:null), ['class'=>'form-control']) !!}
-</div>
+    <div class="form-group">
+        {!! Form::label('cost', 'Cost: ') !!}
+        {!! Form::text('cost', (!empty($gigs['cost']) ? $gigs['cost'] : null), ['class'=>'form-control']) !!}
+    </div>
 
-<div class="form-group">
-    {!! Form::label('notes', 'Notes: ') !!}
-    {!! Form::text('notes', (!empty($gigs['notes']) ?$gigs['notes']:null), ['class'=>'form-control']) !!}
-</div>
+    <div class="form-group">
+        {!! Form::label('notes', 'Notes: ') !!}
+        {!! Form::text('notes', (!empty($gigs['notes']) ? $gigs['notes'] : null), ['class'=>'form-control']) !!}
+    </div>
+    <div class="form-group">
+        {!! Form::label('cover', 'Cover Gig?') !!}
+        {!! Form::checkbox('cover', 1, (!empty($gigs['cover']) && $gigs['cover'] == 'Y' ? true : false) ) !!}
+    </div>
 
-<div class="form-group">
-    {!! Form::label('venue', 'Venue: ') !!}
-    {!! Form::select('venue', $venues, (!empty($gigs['venue']['venue_name']) ?$gigs['venue']['venue_name']:null),
-    ['id' => 'venue',
-    'class'=>'form-control']) !!}
-</div>
+    <div class="form-group">
+        {!! Form::label('venue', 'Venue: ') !!}
+        {!! Form::select('venue', $venues, (!empty($gigs['venue']['venue_name']) ? $gigs['venue']['venue_name'] : null),
+        ['id' => 'venue',
+        'class'=>'form-control']) !!}
+    </div>
 
-@if (!empty($gigs['id']))
-    {!! Form::hidden('gig_id', $gigs['id']) !!}
-@endif
-
-<div id="hidden_bands">
-    @if (!empty($gigs['bands']))
-        <?php $band_counter = 1 ?>
-        @foreach ($gigs['bands'] as $this_band)
-            {!! Form::hidden('band_hidden_'.$band_counter, $this_band['band_name'], ['id' =>
-            'band_hidden_'.$band_counter,
-            'class'=>'hidden_band_names']) !!}
-            <?php $band_counter++ ?>
-        @endforeach
+    @if (!empty($gigs['id']))
+        {!! Form::hidden('gig_id', $gigs['id']) !!}
     @endif
-</div>
 
-<div class="form-group">
-    {!! Form::label('number_of_bands', 'Number of Bands: ') !!}
-    {!! Form::select('number_of_bands', range(0,10), (!empty($gigs['bands']) ?count($gigs['bands']):0), ['id' =>
-    'number_of_bands', 'class'=>'form-control']) !!}
-</div>
+    <div id="hidden_bands">
+        @if (!empty($gigs['bands']))
+            <?php $band_counter = 1 ?>
+            @foreach ($gigs['bands'] as $this_band)
+                {!! Form::hidden('band_hidden_'.$band_counter, $this_band['band_name'], ['id' =>
+                'band_hidden_'.$band_counter,
+                'class'=>'hidden_band_names']) !!}
+                <?php $band_counter++ ?>
+            @endforeach
+        @endif
+    </div>
 
-<span id="band_list"></span>
+    <div class="form-group">
+        {!! Form::label('number_of_bands', 'Number of Bands: ') !!}
+        {!! Form::select('number_of_bands', range(0,10), (!empty($gigs['bands']) ?count($gigs['bands']):0), ['id' =>
+        'number_of_bands', 'class'=>'form-control']) !!}
+    </div>
 
-<div class="form-group">
-    {!! Form::submit((!empty($submit) ? $submit : 'Add Gig'), ['class' => 'btn btn-primary form-control']) !!}
-</div>
+    <span id="band_list"></span>
 
-{!! Form::close() !!}
+    <div class="form-group">
+        {!! Form::submit((!empty($submit) ? $submit : 'Add Gig'), ['class' => 'btn btn-primary form-control']) !!}
+    </div>
+
+    {!! Form::close() !!}
+
+    @if (!empty($gigs['id']))
+        {!! Form::open(['action' => ['GigAdminController@destroy', $gigs['id']], 'method' => 'delete']) !!}
+        <div class="form-group">
+            {!! Form::submit('Delete this gig?', ['id' => 'delete_gig', 'class' => 'btn btn-danger btn-primary
+            form-control']) !!}
+        </div>
+        {!! Form::close() !!}
+    @endif
 
 @endsection
 
@@ -73,6 +87,15 @@
     <script>
 
         $(function () {
+
+            $('#delete_gig').click(
+                    function () {
+                        if (confirm('Are you certain you wish to delete this gig? This CANNOT be reversed')) {
+                            return true;
+                        }
+                        return false;
+                    }
+            );
 
             add_bands();
 
@@ -128,7 +151,7 @@
                 }
             });
 
-            $("#datepicker").datetimepicker({hour: "20", dateFormat: "yy-mm-dd", timeformat: "HH:mm:ss"});
+            $("#datepicker").datetimepicker({dateFormat: "yy-mm-dd", timeformat: "HH:mm:ss"});
 
         });
 

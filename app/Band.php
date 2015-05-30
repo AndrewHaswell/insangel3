@@ -46,6 +46,8 @@ class Band extends Model
   {
     return $query->with(['gigs' => function ($w) {
       $w->where('datetime', '>=', Carbon::now());
-    }, 'gigs.venue'])->has('gigs')->orderBy('band_name', 'asc');
+    }, 'gigs.venue'])->whereHas('gigs', function ($wh) {
+      $wh->where('datetime', '>=', Carbon::now());
+    })->orderBy('band_name', 'asc');
   }
 }

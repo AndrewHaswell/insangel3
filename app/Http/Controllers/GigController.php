@@ -15,6 +15,7 @@ class GigController extends Controller
   public function index()
   {
     $gigs = Gig::AllCurrentByDate()->get();
-    return view('gig.show', compact('gigs'));
+    $cover_gigs = Gig::AllCoverCurrentByDate()->get();
+    return view('gig.show', compact('gigs','cover_gigs'));
   }
 }

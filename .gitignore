@@ -3,3 +3,4 @@
 /public/downloads
 .env
 .idea
+.lock

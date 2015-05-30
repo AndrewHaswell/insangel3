@@ -1,5 +1,12 @@
 @extends('insangel')
 
+@section('gig_menu')
+    <div id="admin_menu">
+        <a href="{{url('/')}}">Gigs by Date</a> <a href="{{url('bands')}}">Gigs by Band</a> <a
+                href="{{url('venues')}}">Gigs by Venue</a>
+    </div>
+@endsection
+
 @section('main')
     @foreach ($venues as $venue)
         <div id="venue">

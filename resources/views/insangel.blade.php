@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Gig Guide</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Montez' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:300,700,400' rel='stylesheet' type='text/css'>
     <link href="{{ URL::asset('css/main.css') }}" rel="stylesheet" type="text/css">
+
     <style>
         body {
             font-family: "verdana", "sans-serif";
@@ -51,7 +53,7 @@
 
         @if (!empty($delete))
         body {
-            background-image: url("/images/body_background_admin.jpg");
+            background-image: url("{{ URL::asset('images/body_background_admin.jpg') }}");
             }
         @endif
     </style>
@@ -59,21 +61,56 @@
 <body>
 <div id="head">
     <div id="insangel_logo"><img src="{{ URL::asset('images/insangel.png') }}"/></div>
+
+    @include('includes.menu')
 </div>
 <div id="main">
     <div id="body">
         <div id="body_text">
 
             @yield('admin_menu')
+            @yield('gig_menu')
 
             @if(Session::has('message'))
                 <p class="alert alert-danger">{{ Session::get('message') }}</p>
             @endif
 
+
             @yield('main')
+            @yield('cover')
 
         </div>
     </div>
 </div>
+@include('includes.footer')
 </body>
 </html>
+<script>
+    $(function () {
+
+        $('.sub').each(
+                function () {
+                    var main_class = $(this).attr('id').split('_').pop();
+                    var main_height = $('#navigation_' + main_class).find('a:first').height();
+                    var main_width = $('#navigation_' + main_class).find('a:first').width();
+
+
+                    var offset = $('#navigation_' + main_class).find('a:first').offset();
+
+                    console.log(offset);
+
+                }
+        );
+
+        $(".navigation_link").bind("mouseover", function () {
+            $('.sub').hide();
+        });
+
+        $(".navigation_category").bind("mouseover", function () {
+            $('.sub').hide();
+            var sub_class = $(this).attr('id').split('_').pop();
+            $('.sub_' + sub_class).show();
+        });
+
+    });
+</script>

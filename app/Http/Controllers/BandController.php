@@ -14,7 +14,7 @@ class BandController extends Controller
    */
   public function index()
   {
-    $bands = Band::AllCurrentByDate()->get();
+    $bands = Band::AllCurrentByDate()->where('band_name', '!=', 'TBC')->get();
     return view('band.show', compact('bands'));
   }
 }

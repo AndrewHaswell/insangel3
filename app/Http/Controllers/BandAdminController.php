@@ -45,7 +45,6 @@ class BandAdminController extends Controller
    * Store a newly created resource in storage.
    *
    * @param storeBandAdminRequest $request
-   *
    * @return mixed
    * @author Andrew Haswell
    */
@@ -75,12 +74,18 @@ class BandAdminController extends Controller
       $band = Band::firstOrCreate(['band_name' => trim($band_data['name'])]);
       $message = 'Band Created: ' . $band_data['name'];
     } else {
-      if (!empty($band_data['band_id']) && !empty($band_data['name'])) $band->band_name = $band_data['name'];
+      if (!empty($band_data['band_id']) && !empty($band_data['name'])) {
+        $band->band_name = $band_data['name'];
+      }
       $message = 'Band Edited: ' . $band_data['name'];
     }
 
-    if (!empty($band_data['description'])) $band->band_description = $band_data['description'];
-    if (!empty($band_data['logo'])) $band->band_logo = $band_data['logo'];
+    if (!empty($band_data['description'])) {
+      $band->band_description = $band_data['description'];
+    }
+    if (!empty($band_data['logo'])) {
+      $band->band_logo = $band_data['logo'];
+    }
 
     $band->save();
 
@@ -91,7 +96,6 @@ class BandAdminController extends Controller
    * Display the specified resource.
    *
    * @param  int $id
-   *
    * @return Response
    */
   public function show($id)
@@ -103,7 +107,6 @@ class BandAdminController extends Controller
    * Show the form for editing the specified resource.
    *
    * @param  int $id
-   *
    * @return Response
    */
   public function edit($id)
@@ -120,7 +123,6 @@ class BandAdminController extends Controller
    * Update the specified resource in storage.
    *
    * @param  int $id
-   *
    * @return Response
    */
   public function update($id)
@@ -132,11 +134,26 @@ class BandAdminController extends Controller
    * Remove the specified resource from storage.
    *
    * @param  int $id
-   *
    * @return Response
    */
   public function destroy($id)
   {
-    //
+    $band = Band::find($id);
+    if ($band['band_name'] != 'TBC') {
+      $message = $band['band_name'] . ' - Band deleted';
+      if (!empty($band['band_logo']))
+      {
+        $band_logo = 'downloads/band_logos/' . $band['band_logo'];
+        if (file_exists($band_logo)) {
+          unlink($band_logo);
+        }
+      }
+
+      $band->delete();
+    } else {
+      $message = 'Cannot delete TBC';
+    }
+
+    return Redirect::action('GigAdminController@index')->with('message', $message);
   }
 }

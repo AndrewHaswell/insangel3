@@ -11,7 +11,9 @@ class AppServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		//
+    view()->composer(
+      'includes.menu', 'App\Http\ViewComposers\InsangelComposer'
+    );
 	}
 
 	/**
