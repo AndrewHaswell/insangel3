@@ -1,12 +1,49 @@
-.gig
-{
-  background-image: url("../images/notepad_center.png");
-  background-size: 100%;
-  background-repeat: repeat-y;
-  padding: 3% 10%;
-  margin-bottom: 10px;
+
+@font-face {
+  font-family: handwritten_title;
+  src:         url("/fonts/TrashHand.ttf");
   }
 
-.gig_after{
-  content:url("../images/notepad_bottom.png");
+.gig {
+  background-image:  url("../images/notepad_center_2.png");
+  background-size:   100%;
+  background-repeat: repeat-y;
+  padding:           0 10%;
+  margin-bottom:     0;
+  }
+
+.gig_after {
+  background-image:    url("../images/notepad_bottom_2.png");
+  background-size:     100%;
+  background-repeat:   no-repeat;
+  background-position: bottom;
+  margin-bottom:       10px;
+  height:              40px;
+  }
+
+.gig_before {
+  background-image:    url("../images/notepad_top_2.png");
+  background-size:     100%;
+  background-repeat:   no-repeat;
+  background-position: top;
+  margin-bottom:       0;
+  height:              40px;
+  }
+
+.gig_title, .subtitle, .bands, .venue, .details {
+  text-align:  center;
+  font-family: 'Just Another Hand', cursive;
+  font-size:   30pt;
+  }
+
+.gig_title {
+
+  font-family: 'handwritten_title';
+  }
+
+.venue, .subtitle {
+  font-size: 24pt;
+  }
+.details {
+  font-size: 20pt;
   }

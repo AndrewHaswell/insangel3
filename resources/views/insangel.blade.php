@@ -8,6 +8,7 @@
 
     <link href='http://fonts.googleapis.com/css?family=Montez' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Roboto:300,700,400' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Patrick+Hand|Just+Another+Hand' rel='stylesheet' type='text/css'>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ URL::asset('css/gig.css') }}" rel="stylesheet">
 

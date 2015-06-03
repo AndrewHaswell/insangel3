@@ -22,6 +22,7 @@
     @if (!empty($gigs))
         <h2>Gigs</h2>
         @foreach ($gigs as $gig)
+            <div class="gig_before"></div>
             <div class="gig">
                 <div class="gig_title">{{ $gig['title'] ? $gig['title'] . ' :: ': '' }}{{Carbon\Carbon::parse($gig['datetime'])->format('D jS M y')}}
                     @if (!empty($delete))
@@ -59,6 +60,7 @@
 
                 </div>
             </div>
+            <div class="gig_after"></div>
 
         @endforeach
     @endif
@@ -69,8 +71,8 @@
     @if (!empty($cover_gigs))
         <h2>Cover Gigs</h2>
         @foreach ($cover_gigs as $gig)
-            <div class="gig">
-                <div class="gig_title">{{ $gig['title'] ? $gig['title'] . ' :: ': '' }}{{Carbon\Carbon::parse($gig['datetime'])->format('D jS M y')}}
+            <div>
+                <div>{{ $gig['title'] ? $gig['title'] . ' :: ': '' }}{{Carbon\Carbon::parse($gig['datetime'])->format('D jS M y')}}
                     @if (!empty($delete))
                         <span class="delete"><a href="#"><img src="{{ URL::asset('images/delete.png') }}"/></a></span>
                         <span class="edit"><a href="/admin/gig/{{$gig['id']}}/edit"><img
@@ -78,10 +80,10 @@
                     @endif
                 </div>
                 @if (!empty($gig['subtitle']))
-                    <div class="subtitle">{{$gig['subtitle']}}</div>
+                    <div>{{$gig['subtitle']}}</div>
                 @endif
-                <div class="venue">{{$gig['venue']['venue_name']}}</div>
-                <div class="bands">
+                <div>{{$gig['venue']['venue_name']}}</div>
+                <div>
                     <?php $band_count = count($gig['bands']); ?>
                     <?php $counter = 1; ?>
                     @foreach ($gig['bands'] as $band)
