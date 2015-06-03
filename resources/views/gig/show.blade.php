@@ -20,6 +20,7 @@
 
 @section('main')
     @if (!empty($gigs))
+        <h2>Gigs</h2>
         @foreach ($gigs as $gig)
             <div class="gig">
                 <div class="gig_title">{{ $gig['title'] ? $gig['title'] . ' :: ': '' }}{{Carbon\Carbon::parse($gig['datetime'])->format('D jS M y')}}
