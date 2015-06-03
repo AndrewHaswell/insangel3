@@ -11,7 +11,7 @@
 
 @section('gig_menu')
     @if (empty($delete))
-        <div id="admin_menu">
+        <div id="admin_menu" style="display:none">
             <a href="{{url('/')}}">Gigs by Date</a> <a href="{{url('bands')}}">Gigs by Band</a> <a
                     href="{{url('venues')}}">Gigs by Venue</a>
         </div>

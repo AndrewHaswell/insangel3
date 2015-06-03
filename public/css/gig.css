@@ -1,0 +1,12 @@
+.gig
+{
+  background-image: url("../images/notepad_center.png");
+  background-size: 100%;
+  background-repeat: repeat-y;
+  padding: 3% 10%;
+  margin-bottom: 10px;
+  }
+
+.gig_after{
+  content:url("../images/notepad_bottom.png");
+  }

@@ -9,6 +9,7 @@
     <link href='http://fonts.googleapis.com/css?family=Montez' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Roboto:300,700,400' rel='stylesheet' type='text/css'>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ URL::asset('css/gig.css') }}" rel="stylesheet">
 
     <style>
 
@@ -43,7 +44,7 @@
     <div id="insangel_logo"><img src="{{ URL::asset('images/insangel.png') }}"/></div>
 </div>
 
-<div id="navigation">
+<div id="navigation" style="display:none">
     @include('includes.menu')
 </div>
 
