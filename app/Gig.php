@@ -35,7 +35,7 @@ class Gig extends Model
    */
   public function bands()
   {
-    return $this->belongsToMany('App\Band');
+    return $this->belongsToMany('App\Band')->orderBy('band_gig.id', 'asc');
   }
 
   /**
