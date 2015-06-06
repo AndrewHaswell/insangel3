@@ -24,16 +24,15 @@
         @foreach ($gigs as $gig)
             <div class="gig_before"></div>
             <div class="gig">
-                <div class="gig_title">{{ $gig['title'] ? $gig['title'] . ' :: ': '' }}{{Carbon\Carbon::parse($gig['datetime'])->format('D jS M y')}}
-                    @if (!empty($delete))
-
-                        <span class="edit"><a href="/admin/gig/{{$gig['id']}}/edit"><img
-                                        src="{{ URL::asset('images/edit.png') }}"/></a></span>
-                    @endif
-                </div>
+                @if (!empty($gig['title']))
+                    <div class="gig_title">{{ $gig['title']}}</div>
+                @endif
                 @if (!empty($gig['subtitle']))
                     <div class="subtitle">{{$gig['subtitle']}}</div>
                 @endif
+                <div class="gig_date">
+                    {{Carbon\Carbon::parse($gig['datetime'])->format('l jS F Y')}}
+                </div>
                 <div class="venue">{{$gig['venue']['venue_name']}}</div>
                 <div class="bands">
                     <?php $band_count = count($gig['bands']); ?>
