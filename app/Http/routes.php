@@ -26,9 +26,12 @@ Route::get('/bands', 'BandController@index');
 Route::get('/venues', 'VenueController@index');
 
 Route::get('admin/download', 'GigAdminController@gig_list');
+
 Route::resource('admin/gig', 'GigAdminController');
 Route::resource('admin/band', 'BandAdminController');
 Route::resource('admin/venue', 'VenueAdminController');
+Route::resource('admin/cms', 'CmsAdminController');
+
 Route::get('ajax/bands/{count}', 'AjaxController@band_drop_downs');
 Route::get('admin', 'GigAdminController@index');
 

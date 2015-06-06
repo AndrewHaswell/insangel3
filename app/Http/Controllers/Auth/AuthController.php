@@ -37,6 +37,21 @@ class AuthController extends Controller {
 		$this->middleware('guest', ['except' => 'getLogout']);
 	}
 
+  // TODO Put these back in!
 
+  /**
+   * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+   * @author Andrew Haswell
+
+  public function getRegister()
+  {
+    return redirect('auth/login'); // or something else
+  }
+
+
+  public function postRegister()
+  {
+
+  }*/
 
 }
