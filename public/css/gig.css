@@ -17,7 +17,9 @@
   background-repeat:   no-repeat;
   background-position: bottom;
   margin-bottom:       10px;
-  height:              40px;
+  height:              0;
+  padding-top:         8.6%;
+  border: 0;
   }
 
 .gig_before {
@@ -26,7 +28,9 @@
   background-repeat:   no-repeat;
   background-position: top;
   margin-bottom:       0;
-  height:              40px;
+  height:              0;
+  padding-top:         7.5%;
+  border: 0;
   }
 
 .gig_title, .gig_date, .subtitle, .bands, .venue, .details {
@@ -41,8 +45,12 @@
   padding:     10px 0;
   }
 
+.gig_date {
+  border-bottom: 1px dashed black;
+  }
+
 .gig_date, .bands {
-  font-size: 38pt;
+  font-size: 34pt;
   }
 
 .subtitle {
@@ -50,9 +58,13 @@
   }
 
 .details {
-  font-size: 20pt;
+  font-size: 24pt;
   }
 
 .detail:after {
   content: " - ";
+  }
+
+.gig p{
+  padding: 0 8px;
   }
