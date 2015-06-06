@@ -22,6 +22,7 @@
 
         body {
             background-image: url("{{ URL::asset('images/graffiti_background.png') }}");
+            font-family:      Roboto;
             }
 
         .container {
@@ -35,14 +36,27 @@
             padding:          0 20px 30px 20px;
             }
 
+        #cover_gigs {
+            background-color: white;
+            padding:          10px;
+            border:           1px solid black;
+            }
+
+        .band_logo img {
+            display: block;
+            margin:  -1px auto;
+            }
+
 
     </style>
 
 </head>
 
 <body>
-<div id="head">
+<div class="container" style="border:none; margin-bottom: -25px">
+
     <div id="insangel_logo"><img src="{{ URL::asset('images/insangel.png') }}"/></div>
+
 </div>
 
 <div id="navigation" style="display:none">
@@ -59,12 +73,7 @@
 
 <div class="container">
     <div class="body_text">
-
-        <div class="row">
-            <div class="col-md-7">@yield('main')</div>
-            <div class="col-md-5">@yield('cover')</div>
-        </div>
-
+        @yield('content')
     </div>
 </div>
 
