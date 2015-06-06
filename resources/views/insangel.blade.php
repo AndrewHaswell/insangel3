@@ -21,13 +21,13 @@
             }
 
         body {
-            background-image: url("{{ URL::asset('images/body_background.jpg') }}");
+            background-image: url("{{ URL::asset('images/graffiti_background.png') }}");
             }
 
         .container {
             padding:      0;
-            border:       12px solid transparent;
-            border-image: url("{{ URL::asset('images/dirt_border.png') }}") 12 12 repeat;
+            border:       18px solid transparent;
+            border-image: url("{{ URL::asset('images/dirt_border.png') }}") 18 18 repeat;
             }
 
         .body_text {
@@ -49,13 +49,6 @@
     @include('includes.menu')
 </div>
 
-<div class="container">
-    <div class="body_text">
-        @yield('admin_menu')
-        @yield('gig_menu')
-    </div>
-</div>
-
 @if(Session::has('message'))
     <div class="container">
         <div class="body_text">
@@ -72,12 +65,6 @@
             <div class="col-md-5">@yield('cover')</div>
         </div>
 
-    </div>
-</div>
-
-<div class="container">
-    <div class="body_text">
-        @include('includes.footer')
     </div>
 </div>
 
