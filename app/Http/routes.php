@@ -17,7 +17,22 @@ Route::get('/', 'GigController@index');
 
 Route::get('/pic2', function () {
 
-  $img = Image::make('downloads/band_logos/gunsN\'Roses.png')->trim();
+  //return public_path('fonts/Across the Road.ttf');
+
+  $img = Image::canvas(250, 30, '#000');
+
+
+
+  // use callback to define details
+  $img->text('Gigs by Band', 125,14, function($font) {
+    $font->file(public_path('fonts/Impact Label Reversed.ttf'));
+    $font->size(26);
+    $font->color('#fff');
+    $font->align('center');
+    $font->valign('center');
+  });
+
+  //$img->blur();
 
   return $img->response('png');
 });

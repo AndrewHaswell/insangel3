@@ -1,6 +1,6 @@
 @font-face {
   font-family: handwritten_title;
-  src:         url("/fonts/TrashHand.ttf");
+  src:         url("../fonts/TrashHand.TTF");
   }
 
 .gig {
