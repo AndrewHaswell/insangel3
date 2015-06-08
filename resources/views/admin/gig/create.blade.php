@@ -151,7 +151,7 @@
                 }
             });
 
-            $("#datepicker").datetimepicker({dateFormat: "yy-mm-dd", timeformat: "HH:mm:ss"});
+            $("#datepicker").datetimepicker({dateFormat: "yy-mm-dd", timeformat: "HH:mm:ss", hour: '19', minute: '00'});
 
         });
 
