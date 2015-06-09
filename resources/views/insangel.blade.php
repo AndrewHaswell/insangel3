@@ -44,7 +44,25 @@
 
         .band_logo img {
             display: block;
-            margin:  -1px auto;
+            margin:  -1px auto 8px auto;
+            }
+
+        .cover_gig_title {
+            font-size:     14pt;
+            border-bottom: 1px dashed black;
+            }
+
+        .cover_gigs {
+            margin: 10px 0;
+            }
+
+        .band_title
+        {
+            font-family: "Patrick Hand";
+            text-align: center;
+            font-size: 24pt;
+            margin-bottom: 8px;
+            color: #9c4c49;
             }
 
 
