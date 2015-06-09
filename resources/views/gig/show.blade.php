@@ -61,16 +61,21 @@
             @if (!empty($cover_gigs))
                 @foreach ($cover_gigs as $cover_gig)
 
-                    <div id="cover_gig_title">{{$cover_gig['venue_name']}}</div>
+                    @if (count($cover_gig['gigs'])>0)
 
-                    @if (!empty($cover_gig['gigs']))
+                        <div class="cover_gig_title">{{$cover_gig['venue_name']}}</div>
 
-                        @foreach ($cover_gig['gigs'] as $gig)
-                            <div id="cover_gig">{{date('l jS F', strtotime($gig['datetime']))}} :: {{implode(' | ', $gig->bands->lists('band_name'))}}</div>
-                        @endforeach
+                        <div class="cover_gigs">
+                            @if (!empty($cover_gig['gigs']))
 
+                                @foreach ($cover_gig['gigs'] as $gig)
+                                    <div id="cover_gig">{{date('l jS F', strtotime($gig['datetime']))}}
+                                        :: {{implode(' | ', $gig->bands->lists('band_name'))}}</div>
+                                @endforeach
+
+                            @endif
+                        </div>
                     @endif
-
                 @endforeach
             @endif
 

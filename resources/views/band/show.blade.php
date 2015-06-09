@@ -21,7 +21,7 @@
                                                         src="{{ URL::asset('downloads/band_logos/'.$band['band_logo']) }}"/>
                             </div>
                         @else
-                            <h1>{{$band['band_name']}}</h1>
+                            <div class="band_title">{{$band['band_name']}}</div>
                         @endif
                         @foreach ($band['gigs'] as $gig)
                             <p>{{$gig['venue']['venue_name']}} - {{date('jS M y', strtotime($gig['datetime']))}}</p>
