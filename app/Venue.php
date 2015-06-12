@@ -30,4 +30,12 @@ class Venue extends Model
     })->orderBy('venue_name', 'asc');
   }
 
+  public function scopeAllCoverVenues($query){
+    return $query->with(['gigs'=> function ($w) {
+      $w->where('datetime', '>=', Carbon::now())
+        ->where('cover', '=', 'Y')
+        ->orderBy('datetime', 'asc');
+    }, 'gigs.bands'])->orderBy('venue_name', 'asc');
+  }
+
 }
