@@ -8,16 +8,15 @@ class InsangelComposer
    * Bind data to the view.
    *
    * @param  View $view
+   *
    * @return void
    */
   public function compose(View $view)
   {
+    $navigation = ['/'      => 'Gigs by Date',
+                   'bands'  => 'Gigs by Band',
+                   'venues' => 'Gigs by Venue',];
 
-    $navigation = ['One'  => '1',
-                   'Two'  => '2',
-                   'List' => ['Three' => '3',
-                              'Four'  => '4']];
-
-    $view->with('navigation', $navigation);
+    $view->with('navigation', array_reverse($navigation));
   }
 }

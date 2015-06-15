@@ -1,18 +1,7 @@
 <div id="navigation">
-    <ul id="menu">
-        @foreach ($navigation as $title => $link)
-
+        @foreach ($navigation as $link => $title)
             @if (is_string($link))
-                <li><a href="{{$link}}">{{$title}}</a></li>
-            @else
-                <li><a href="#">{{$title}}</a>
-                    <ul class="sub-menu">
-                        @foreach ($link as $subtitle => $sublink)
-                            <li><a href="{{$sublink}}">{{$subtitle}}</a></li>
-                        @endforeach
-                    </ul>
+                <div class="menu-item"><a href="{{url($link)}}">{{$title}}</a></div>
             @endif
         @endforeach
-
-    </ul>
 </div>
