@@ -14,15 +14,40 @@
 
     <style>
 
+        @font-face {
+            font-family: Impact;
+            src:         url('{{ URL::asset('fonts/Impact Label Reversed.ttf') }}');
+            }
+
         #navigation {
-            position: absolute;
-            top:      5px;
-            right:    5px;
+            position: relative;
+            }
+
+        #navigation .menu-item {
+            background-color: black;
+            width:            200px;
+            float:            right;
+            margin:           10px;
+            padding:          5px 10px;
+            border:           2px solid white;
+            text-align:       center;
+            position:         relative;
+            }
+
+        #navigation .menu-item > a {
+            font-family:     Impact, fantasy;
+            font-size:       16pt;
+            color:           white;
+            text-decoration: none;
+            }
+
+        #navigation .menu-item:hover {
+            background-color: #5c5c5c;
             }
 
         body {
             background-image: url("{{ URL::asset('images/graffiti_background.png') }}");
-            font-family:      Roboto;
+            font-family:      Roboto, fantasy;
             }
 
         .container {
@@ -56,43 +81,38 @@
             margin: 10px 0;
             }
 
-        .date_row
-        {
-            text-align: center;
-            font-size: 12pt;
+        .date_row {
+            text-align:  center;
+            font-size:   12pt;
             line-height: 1.1em;
-            margin: 0 0 4px 0;
-            padding: 0;
+            margin:      0 0 4px 0;
+            padding:     0;
             }
 
-        .date_row>.venue_name_small
-        {
+        .date_row > .venue_name_small {
             font-weight: bold;
             }
 
-        .band_title
-        {
-            font-family: "Patrick Hand";
-            text-align: center;
-            font-size: 24pt;
+        .band_title {
+            font-family:   "Patrick Hand";
+            text-align:    center;
+            font-size:     24pt;
             margin-bottom: 8px;
-            color: #9c4c49;
+            color:         #9c4c49;
             }
 
-        .venue_page_gig
-        {
-            margin: 0 0 6px 0;
+        .venue_page_gig {
+            margin:        0 0 6px 0;
             border-bottom: 1px dashed grey;
             }
 
-        .venue_page_gig p
-        {
-            margin-bottom: 4px;text-align: center;
-            font-size: 12pt;
+        .venue_page_gig p {
+            margin-bottom: 4px;
+            text-align:    center;
+            font-size:     12pt;
             }
 
-        .venue_page_gig p.small_gig_date
-        {
+        .venue_page_gig p.small_gig_date {
             font-weight: bold;
 
             }
@@ -103,14 +123,11 @@
 </head>
 
 <body>
-<div class="container" style="border:none; margin-bottom: -25px">
-
-    <div id="insangel_logo"><img src="{{ URL::asset('images/insangel.png') }}"/></div>
-
-</div>
-
-<div id="navigation" style="display:none">
-    @include('includes.menu')
+<div class="container" style="border:none">
+    <div class="row">
+        <div id="insangel_logo" class="col-md-3"><img src="{{ URL::asset('images/insangel.png') }}"/></div>
+            @include('includes.menu')
+    </div>
 </div>
 
 @if(Session::has('message'))

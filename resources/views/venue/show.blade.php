@@ -1,14 +1,8 @@
 @extends('venues')
 
-@section('gig_menu')
-    <div id="admin_menu">
-        <a href="{{url('/')}}">Gigs by Date</a> <a href="{{url('bands')}}">Gigs by Band</a> <a
-                href="{{url('venues')}}">Gigs by Venue</a>
-    </div>
-@endsection
-
 @section('main')
     <?php $venue_counter = 1; ?>
+    <h2>Gigs by Venue</h2>
     @foreach ($venues as $venue)
         @if ($venue_counter === 1)
             <div class="row">

@@ -1,10 +1,5 @@
 @extends('gigs')
 
-@section('gig_menu')
-    <a href="{{url('/')}}">Gigs by Date</a> <a href="{{url('bands')}}">Gigs by Band</a> <a
-            href="{{url('venues')}}">Gigs by Venue</a>
-@endsection
-
 @section('main')
     @if (!empty($gigs))
         <h2>Gigs</h2>
@@ -70,7 +65,7 @@
 
                                 @foreach ($cover_gig['gigs'] as $gig)
                                     <div id="cover_gig">{{date('l jS F', strtotime($gig['datetime']))}}
-                                        :: {{implode(' | ', $gig->bands->lists('band_name'))}}</div>
+                                        :: <strong>{{implode(' | ', $gig->bands->lists('band_name'))}}</strong></div>
                                 @endforeach
 
                             @endif
