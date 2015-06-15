@@ -24,7 +24,7 @@
                             <div class="band_title">{{$band['band_name']}}</div>
                         @endif
                         @foreach ($band['gigs'] as $gig)
-                            <p>{{$gig['venue']['venue_name']}} - {{date('jS M y', strtotime($gig['datetime']))}}</p>
+                            <p class="date_row"><span class="gig_date_small">{{date('jS F', strtotime($gig['datetime']))}}</span> - <span class="venue_name_small">{{$gig['venue']['venue_name']}}</span></p>
                         @endforeach
                         <div>&nbsp;</div>
                     </div>
