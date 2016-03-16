@@ -34,6 +34,7 @@
             <a href="{{url('admin/band/create')}}" class="btn btn-lg btn-success" role="button">Add Band</a>
             <a href="{{url('admin/venue/create')}}" class="btn btn-lg btn-success" role="button">Add Venue</a>
             <a href="{{url('admin/cms')}}" class="btn btn-lg btn-success" role="button">Edit CMS Pages</a>
+            <a href="{{url('admin/upload')}}" class="btn btn-lg btn-success" role="button">Upload Gig List</a>
             <a href="{{url('admin/download')}}" class="btn btn-lg btn-success" role="button">Download Gig List</a>
         </div>
     </div>

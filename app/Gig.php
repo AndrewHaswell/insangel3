@@ -64,7 +64,7 @@ class Gig extends Model
    */
   public function scopeAllCurrentByDate($query)
   {
-    return $query->where('datetime', '>=', Carbon::today())->where('cover', '!=', 'Y')->with('bands')->with('venue')->orderBy('datetime', 'asc');
+    return $query->where('datetime', '>=', Carbon::parse('1st january 2015'))->where('cover', '!=', 'Y')->with('bands')->with('venue')->orderBy('datetime', 'asc');
   }
 
   /**

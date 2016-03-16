@@ -53,6 +53,18 @@ class GigAdminController extends Controller
     return view('admin.gig.create', compact('venues'));
   }
 
+  public function upload_gig(){
+    return view('admin.band.upload');
+  }
+
+  public function upload(uploadGigAdminRequest $request)
+  {
+    // Get the form data
+    $gig_data = Input::all();
+    var_dump($gig_data);
+    exit();
+  }
+
   /**
    * Save the results of the gig form
    *
