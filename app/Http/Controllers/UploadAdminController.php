@@ -2,6 +2,8 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use App\Venue;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -45,16 +47,12 @@ class UploadAdminController extends Controller
     $gig_data = explode("\n\r", $gig_data['notes']);
     foreach ($gig_data as $gig) {
 
-
-      var_dump($gig);
-
       $gig_details = explode("\n", $gig);
       if (count($gig_details) < 3) {
         continue;
       } else {
-        $gig_details = array_map('trim', $gig_details);
+        $gig_details = array_filter(array_map('trim', $gig_details));
       }
-
 
       $gig_extra_details = array_map('trim', explode('|', array_pop($gig_details)));
 
@@ -62,11 +60,72 @@ class UploadAdminController extends Controller
 
       $gig_time = $this->fix_time(array_pop($gig_extra_details));
       $gig_cost = array_pop($gig_extra_details);
-      $gig_date = date('Y-m-d', strtotime(array_shift($gig_details))) . 'T' . $gig_time;
+
+      $gig_cost = preg_match('/[0-9]/i', $gig_cost)
+        ? '&pound;' . number_format(preg_replace('/[^0-9\.]/i', '', $gig_cost), 2) : 'FREE';
+      $gig_venue = array_filter(array_map('trim', explode(',', array_pop($gig_details))));
+
+      $venue = Venue::firstOrCreate(['venue_name' => current($gig_venue)]);
+      // var_dump($venue->id);
+
+      $gig_date = Carbon::createFromFormat('l jS F H:i:s', array_shift($gig_details) . ' ' . $gig_time);
+      $gig_title = array_shift($gig_details);
+
+      $bands = array_reverse($gig_details, true);
+
+      $this_line = true;
+      $next_line = false;
+
+      $all_bands = [];
+      $all_bands_keys = [];
+
+      foreach ($bands as $key => $band) {
+
+        $these_bands = array_map('trim', explode('+', $band));
+
+        $first_band = current($these_bands);
+        $last_band = end($these_bands);
+
+        if ($this_line || empty($last_band) || $next_line) {
+          $this_line = true;
+        }
+        if (empty($first_band)) {
+          $next_line = true;
+        }
+
+        if ($this_line) {
+          $all_bands[] = $these_bands;
+          $all_bands_keys[] = $key;
+        }
+        $this_line = false;
+      }
+
+      unset($bands);
+
+      foreach ($all_bands_keys as $key) {
+        unset($gig_details[$key]);
+      }
+
+      $all_bands = array_reverse($all_bands);
+      $band_list = [];
+
+      foreach ($all_bands as $all_band) {
+        $band_list = array_merge($band_list, $all_band);
+      }
+
+      $band_list = array_filter($band_list);
 
       var_dump($gig_details);
+      echo "\n\r";
+      var_dump($band_list);
+      echo "\n\r";
+
+      var_dump($gig_details);
+      echo '<hr/>';
       var_dump($gig_cost);
+      var_dump($gig_title);
       var_dump($gig_date);
+      echo '<hr/>';
 
       exit();
     }
