@@ -4,6 +4,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use App\Venue;
+use App\Band;
+use App\Gig;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -13,6 +15,13 @@ use Illuminate\Http\Request;
 
 class UploadAdminController extends Controller
 {
+  public function __construct()
+  {
+    $authorised = Auth::check();
+    if (!$authorised) {
+      abort(403, 'Unauthorized action.');
+    }
+  }
 
   /**
    * Display a listing of the resource.
@@ -43,18 +52,45 @@ class UploadAdminController extends Controller
   {
     echo '<pre>';
     $gig_data = Input::all();
-    $gig_data['notes'];
+
+    $cover_gig = 'N';
+    if ($gig_data['double']) {
+      $temp_notes = explode("\n", $gig_data['notes']);
+      $new_gig_data = [];
+      foreach ($temp_notes as $key => $line) {
+        if ($key % 2 == 0) {
+          $new_gig_data[] = $line;
+        }
+      }
+      $gig_data['notes'] = implode("\n", $new_gig_data);
+    }
+
     $gig_data = explode("\n\r", $gig_data['notes']);
+
     foreach ($gig_data as $gig) {
 
-      $gig_details = explode("\n", $gig);
+      echo 'Adding gig...' . "\n\r";
+      echo trim($gig) . "\n\r";
+
+      $this_cover_gig = $cover_gig;
+
+      $gig_details = explode("\n", trim($gig));
       if (count($gig_details) < 3) {
+        echo 'Not enough data to be a gig... skipping' . "\n\r\n\r" . '-------------------------' . "\n\r\n\r";
+
         continue;
       } else {
         $gig_details = array_filter(array_map('trim', $gig_details));
       }
+      $facebook_link = '';
+      $last_line = array_pop($gig_details);
 
-      $gig_extra_details = array_map('trim', explode('|', array_pop($gig_details)));
+      if (!filter_var($last_line, FILTER_VALIDATE_URL) === false) {
+        echo "Adding Facebook link..." . "\n\r";
+        $facebook_link = $last_line;
+        $last_line = array_pop($gig_details);
+      }
+      $gig_extra_details = array_map('trim', explode('/', $last_line));
 
       array_pop($gig_extra_details);// Dump the phone number
 
@@ -65,13 +101,20 @@ class UploadAdminController extends Controller
         ? '&pound;' . number_format(preg_replace('/[^0-9\.]/i', '', $gig_cost), 2) : 'FREE';
       $gig_venue = array_filter(array_map('trim', explode(',', array_pop($gig_details))));
 
-      $venue = Venue::firstOrCreate(['venue_name' => current($gig_venue)]);
-      // var_dump($venue->id);
+      $venue_name = array_shift($gig_venue);
+      $venue_address = implode(', ', $gig_venue);
 
       $gig_date = Carbon::createFromFormat('l jS F H:i:s', array_shift($gig_details) . ' ' . $gig_time);
       $gig_title = array_shift($gig_details);
 
       $bands = array_reverse($gig_details, true);
+
+      if (empty($bands)) {
+        $bands = [$gig_title];
+        $gig_title = '';
+        $this_cover_gig = 'Y';
+        echo "Sending as a cover gig" . "\n\r";
+      }
 
       $this_line = true;
       $next_line = false;
@@ -115,22 +158,60 @@ class UploadAdminController extends Controller
 
       $band_list = array_filter($band_list);
 
-      var_dump($gig_details);
-      echo "\n\r";
-      var_dump($band_list);
-      echo "\n\r";
+      $gig_subtitle = !empty($gig_details) ? implode(' ', $gig_details) : '';
 
-      var_dump($gig_details);
-      echo '<hr/>';
-      var_dump($gig_cost);
-      var_dump($gig_title);
-      var_dump($gig_date);
-      echo '<hr/>';
+      $venue = Venue::firstOrCreate(['venue_name' => $venue_name]);
 
-      exit();
+      if (empty($venue->venue_address)) {
+        $venue->venue_address = $venue_address;
+        $venue->save();
+      }
+
+      echo 'Adding venue...' . "\n";
+      echo 'Venue Name: ' . $venue_name . "\n";
+      echo 'Venue Address: ' . $venue_address . "\n\r";
+
+      $gig = Gig::firstOrCreate(['venue_id' => $venue->id,
+                                 'datetime' => $gig_date,]);
+
+      // Update the rest of the gig info
+      $gig->title = $gig_title;
+      echo 'Gig Title: ' . $gig_title . "\n";
+
+      $gig->subtitle = $gig_subtitle;
+      echo 'Gig Subtitle: ' . $gig_subtitle . "\n";
+      $gig->cost = $gig_cost;
+      echo 'Gig Cost: ' . $gig_cost . "\n";
+      $gig->notes = $facebook_link;
+
+      echo 'Event Link: ' . $facebook_link . "\n\r";
+      $gig->cover = $this_cover_gig;
+      $gig->save();
+
+      $gig->bands()->detach();
+
+      echo 'Adding bands...' . "\n\r";
+
+      foreach ($band_list as $band) {
+        $this_band = Band::firstOrCreate(['band_name' => ($band ?: 'TBC')]);
+        echo $band . "\n";
+        // Assign the band to the gig
+        $gig->bands()->save($this_band);
+      }
+      echo "\r" . 'Gig saved' . "\n\r\n\r" . '-------------------------' . "\n\r\n\r";
     }
-    exit;
+    exit('Done');
   }
+
+  /**
+   *
+   *
+   * @param $time
+   *
+   * @return string
+   *
+   * @author Andrew Haswell
+   */
 
   private function fix_time($time)
   {
