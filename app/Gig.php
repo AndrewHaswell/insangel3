@@ -54,7 +54,7 @@ class Gig extends Model
    */
   public function scopeAllByDate($query)
   {
-    return $query->with('bands')->with('venue')->orderBy('datetime', 'asc');
+    return $query->where('datetime', '>=', Carbon::today())->with('bands')->with('venue')->orderBy('datetime', 'asc');
   }
 
   /**
@@ -64,7 +64,7 @@ class Gig extends Model
    */
   public function scopeAllCurrentByDate($query)
   {
-    return $query->where('datetime', '>=', Carbon::now())->where('cover', '!=', 'Y')->with('bands')->with('venue')->orderBy('datetime', 'asc');
+    return $query->where('datetime', '>=', Carbon::today())->where('cover', '!=', 'Y')->with('bands')->with('venue')->orderBy('datetime', 'asc');
   }
 
   /**
@@ -74,6 +74,6 @@ class Gig extends Model
    */
   public function scopeAllCoverCurrentByDate($query)
   {
-    return $query->where('datetime', '>=', Carbon::now())->where('cover', '=', 'Y')->with('bands')->with('venue')->orderBy('datetime', 'asc');
+    return $query->where('datetime', '>=', Carbon::today())->where('cover', '=', 'Y')->with('bands')->with('venue')->orderBy('datetime', 'asc');
   }
 }
