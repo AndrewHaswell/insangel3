@@ -50,7 +50,7 @@
 
 @section('cover')
     @if (!empty($cover_gigs))
-        <h2>Cover Gigs</h2>
+        <h2>Available Gigs</h2>
         <div id="cover_gigs">
 
             @if (!empty($cover_gigs))
