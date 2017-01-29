@@ -48,7 +48,7 @@
                 <div class="gig">
 
                     @if ($gig['cover'] == 'Y')
-                        <div class="cover">COVER GIG</div>
+                        <div class="cover">AVAILABLE GIGS</div>
                     @endif
 
                     <h3>{{ $gig['title'] ? $gig['title'] : '' }}
